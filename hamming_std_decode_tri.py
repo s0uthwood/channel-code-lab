@@ -19,21 +19,16 @@ def hamming_decode(data: str, error = False) -> str:
     return data[2] + data[4:7] + data[8:]
 
 if __name__ == "__main__":
-    read = ''
+    get_std = ''
     for line in sys.stdin:
         for c in line:
-            read += c
-            if len(read) == 45:
-                de_res = hamming_decode(read[:15])
-                de_res += hamming_decode(read[15:30])
-                de_res += hamming_decode(read[30:])
+            get_std += c
+            if len(get_std) == 45:
                 buf = ['', '', '']
-                for i in range(33):
-                    buf[i % 3] += de_res[i]
-                # print (de_res)
-                print (buf[0], end = '')
-                print (buf[1], end = '')
-                print (buf[2], end = '')
-                # print ()
-                # TODO: still errors occur
-                read = ''
+                for i in range(45):
+                    buf[i % 3] += get_std[i]
+                output = hamming_decode(buf[0])
+                output += hamming_decode(buf[1])
+                output += hamming_decode(buf[2])
+                print (output, end = '')
+                get_std = ''

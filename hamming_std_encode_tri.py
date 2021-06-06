@@ -11,18 +11,15 @@ def hamming_encode(data: str) -> str:
     return parity[:2] + data[0] + parity[2] + data[1:4] + parity[3] + data[4:]
 
 if __name__ == "__main__":
-    read = ''
+    get_std = ''
     for line in sys.stdin:
         for c in line:
-            read += c
-            if len(read) == 33:
-                input = ''
-                for i in range(33):
-                    input += read[(i % 3) * 11 + i // 3]
-                print (hamming_encode(input[:11]), end = '')
-                print (hamming_encode(input[11:22]), end = '')
-                print (hamming_encode(input[22:]), end = '')
-                # print (read[:11], read[11:22], read[22:])
-                # print (input)
-                read = ''
+            get_std += c
+            if len(get_std) == 33:
+                buf = hamming_encode(get_std[:11]) + hamming_encode(get_std[11:22]) + hamming_encode(get_std[22:])
+                output = ''
+                for i in range(45):
+                    output += buf[(i % 3) * 15 + i // 3]
+                print (output, end = '')
+                get_std = ''
         

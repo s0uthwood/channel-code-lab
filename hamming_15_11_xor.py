@@ -1,5 +1,3 @@
-import numpy as np
-import re
 import random
 
 def hamming_encode(data: str) -> str:

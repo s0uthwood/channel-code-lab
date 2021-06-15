@@ -10,13 +10,12 @@ def hamming_encode(data: str) -> str:
     data_tmp = parity[:2] + data[0] + parity[2] + data[1:4] + parity[3] + data[4:]
     return data_tmp + ('0' if parity_check(data_tmp) else '1')
 
-def error_occur(data: str, num) -> str:
-    tmp1, tmp2 = random.sample(range(0, 16), 2)
-    assert tmp1 != tmp2
-    ret = data[:tmp1] + ('0' if data[tmp1] == '1' else '1') + data[tmp1 + 1:]
-    if num == 2:
-        ret = ret[:tmp2] + ('0' if ret[tmp2] == '1' else '1') + ret[tmp2 + 1:]
-    return ret
+def error_occur(data: str, num: int) -> str:
+    error_list = random.sample(range(0, len(data)), num)
+    error_data = data[:]
+    for tmp in error_list:
+        error_data = error_data[:tmp] + ('0' if error_data[tmp] == '1' else '1') + error_data[tmp + 1:]
+    return error_data
 
 def parity_check(data):
     count = 0
@@ -56,4 +55,3 @@ if __name__ == "__main__":
         assert (hamming_decode(hamming_encode(data[0])) == data[0])
         assert (hamming_decode(hamming_encode(data[0]), 1) == data[0])
         assert (hamming_decode(hamming_encode(data[0]), 2) == False)
-        
